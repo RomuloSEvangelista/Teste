@@ -1,0 +1,99 @@
+/* --- Configurações Gerais do Sistema --- */
+body {
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle, #2c3e50 0%, #000000 100%);
+    color: #f8f9fa;
+    min-vh-100: 100vh;
+}
+
+/* --- Seção Hero (Banner Principal) --- */
+.hero-section {
+    background: linear-gradient(135deg, #4b0082 0%, #2575fc 100%);
+    padding: 80px 0;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.hero-section h1 {
+    font-family: 'Cinzel', serif;
+    color: #ffd700; /* Dourado */
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+}
+
+.hero-section .lead {
+    color: #e9ecef;
+}
+
+/* --- Grid de Cards Estilo TCG (Trading Card Game) --- */
+.card-item {
+    background: #1a1a1a; /* Fundo sólido escuro para as artes de IA */
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+
+/* Efeito de Hover: Aumenta, rotaciona levemente e brilha */
+.card-item:hover {
+    transform: scale(1.05) rotate(1deg);
+    box-shadow: 0 0 25px rgba(241, 196, 15, 0.4) !important;
+    border-color: #f1c40f !important; /* Borda Dourada no Hover */
+}
+
+/* Imagem do Card */
+.card-img-top {
+    height: 380px; 
+    object-fit: cover;
+    padding: 8px; /* Espaço para parecer uma moldura de carta física */
+    filter: saturate(1.1) contrast(1.1);
+}
+
+/* Corpo do Card */
+.card-body {
+    background: #121212;
+    color: #eee;
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+/* --- Badges e Preços --- */
+.badge {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.text-warning {
+    color: #f1c40f !important;
+    font-size: 1.25rem;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+/* --- Formulários e Inputs Dark --- */
+.form-control, .form-select {
+    background-color: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    color: white !important;
+}
+
+.form-control::placeholder {
+    color: #666;
+}
+
+.form-control:focus, .form-select:focus {
+    box-shadow: 0 0 10px rgba(106, 17, 203, 0.5);
+    border-color: #6a11cb !important;
+}
+
+/* --- Botões Personalizados --- */
+.btn-outline-light:hover {
+    background-color: #f1c40f;
+    color: #000;
+    border-color: #f1c40f;
+}

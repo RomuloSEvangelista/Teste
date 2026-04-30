@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../aulasFrontEssencial/front"
+		},
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Projeto-Final-Front-End-Essencial-"
+	}
+}

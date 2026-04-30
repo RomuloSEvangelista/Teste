@@ -1,0 +1,44 @@
+:root {
+    --purple-main: #4b0082;
+    --gold: #ffd700;
+}
+
+body {
+    background-color: #f4f4f9;
+}
+
+.bg-purple-dark {
+    background-color: var(--purple-main);
+}
+
+.hero-section {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../img/banner-tcg.jpg');
+    background-size: cover;
+    height: 300px;
+}
+
+/* Efeito Hover na Carta (Melhora UX no Desktop) */
+.card-item {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(75, 0, 130, 0.2);
+}
+
+.card-img-top {
+    padding: 15px;
+    object-fit: contain;
+    height: 250px;
+}
+
+/* Ajustes Mobile */
+@media (max-width: 576px) {
+    .hero-section h1 { font-size: 1.8rem; }
+    .card-img-top { height: 200px; }
+}
