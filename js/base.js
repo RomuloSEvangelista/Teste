@@ -50,7 +50,7 @@ const cardsData = [
         price: 15.00, 
         type: "Alunos", 
         img: "./img/ivy.png", 
-        desc: "Habilidade: Comunicação rápida e eficiente. Ninguém pergunta nada." 
+        desc: "Habilidade: Comunicação rápida e eficiente." 
     },
     { 
         id: 4, 
@@ -59,7 +59,17 @@ const cardsData = [
         type: "POO", 
         img: "./img/breno.png", 
         desc: "Mago POO. Encapsula erros e herda sabedoria." 
+    },
+    { 
+        id: 4, 
+        name: "Prof. Breno", 
+        price: 15.00, 
+        type: "POO", 
+        img: "./img/menegueli.png", 
+        desc: "Mago POO. Encapsula erros e herda sabedoria." 
     }
+
+    
 ];
 
 // Seleção de elementos do DOM
