@@ -62,9 +62,9 @@ const cardsData = [
     },
     { 
         id: 4, 
-        name: "Prof. Breno", 
+        name: "Prof. Menegueli", 
         price: 15.00, 
-        type: "POO", 
+        type: "Front End", 
         img: "./img/menegueli.png", 
         desc: "Mago POO. Encapsula erros e herda sabedoria." 
     }

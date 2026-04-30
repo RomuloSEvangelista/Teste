@@ -24,7 +24,7 @@ const cartasDisponiveis = [
     { 
         id: 3, 
         name: "Ivy", 
-        price: 15.00, 
+        price: 3.00, 
         type: "Alunos", 
         img: "ivy.png", 
         desc: "Habilidade: Comunicação rápida e eficiente ninguém pergunta nada." 
@@ -32,10 +32,18 @@ const cartasDisponiveis = [
     { 
         id: 4, 
         name: "Prof. Breno", 
-        price: 15.00, 
+        price: 55.00, 
         type: "POO", 
         img: "breno.png", 
         desc: "Mago POO." 
+    },
+    { 
+        id: 5, 
+        name: "Prof. Menegueli", 
+        price: 65.00, 
+        type: "Front End", 
+        img: "menegueli.png", 
+        desc: "Mestre do Front End." 
     }
 ];
 
