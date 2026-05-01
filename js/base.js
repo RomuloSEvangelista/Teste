@@ -93,13 +93,23 @@ function filtrar() {
 
 // 6. INICIALIZAÇÃO
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Verifica em qual página estamos
+    const path = window.location.pathname;
+    const paginaAtual = path.split("/").pop();
+
+    // 2. Proteção de Rota: Só redireciona se NÃO for o index ou o login
+    // Permitimos que o usuário veja o index.html sem estar logado
     if (!localStorage.getItem('usuarioLogado')) {
-        window.location.href = "login.html";
+        if (paginaAtual !== "index.html" && paginaAtual !== "login.html" && paginaAtual !== "") {
+            window.location.href = "login.html";
+            return; 
+        }
     }
 
-    renderCards(cardsData);
+    // 3. Só tenta renderizar cartas se o container existir (evita erro no index)
+    if (document.getElementById('card-container')) {
+        renderCards(cardsData);
+    }
+    
     updateCartCounter();
-
-    document.getElementById('searchInput')?.addEventListener('input', filtrar);
-    document.getElementById('filterType')?.addEventListener('change', filtrar);
 });

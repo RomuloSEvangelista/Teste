@@ -108,3 +108,70 @@ function checkout() {
 // Inicializa a renderização ao carregar a página
 document.addEventListener('DOMContentLoaded', renderCart);
 
+document.addEventListener('DOMContentLoaded', () => {
+    renderCart();
+});
+
+function renderCart() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const container = document.getElementById('cart-items-container');
+    const totalItemsElem = document.getElementById('total-items');
+    const cartTotalElem = document.getElementById('cart-total');
+
+    if (!container) return;
+
+    if (cart.length === 0) {
+        container.innerHTML = `
+            <div class="alert alert-dark text-center border-secondary">
+                Seu deck está vazio. <a href="catalogo.html" class="text-warning">Vá buscar novas cartas!</a>
+            </div>`;
+        totalItemsElem.innerText = "0";
+        cartTotalElem.innerText = "R$ 0,00";
+        return;
+    }
+
+    container.innerHTML = "";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+        total += item.price;
+        container.innerHTML += `
+            <div class="card bg-black border-secondary p-3 shadow-sm">
+                <div class="row align-items-center">
+                    <div class="col-3 col-md-2">
+                        <img src="img/${item.img}" class="img-fluid rounded" alt="${item.name}">
+                    </div>
+                    <div class="col-6 col-md-7">
+                        <h5 class="mb-0 text-warning">${item.name}</h5>
+                        <small class="text-white-50">${item.type}</small>
+                    </div>
+                    <div class="col-3 col-md-3 text-end">
+                        <p class="fw-bold mb-1">R$ ${item.price.toFixed(2).replace('.', ',')}</p>
+                        <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${index})">Remover</button>
+                    </div>
+                </div>
+            </div>`;
+    });
+
+    totalItemsElem.innerText = cart.length;
+    cartTotalElem.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+}
+
+// Remove apenas um item do carrinho
+window.removeFromCart = function(index) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart();
+    // Se você tiver a função de atualizar contador no base.js:
+    if (window.updateCartCounter) window.updateCartCounter();
+};
+
+// Limpa tudo
+window.clearCart = function() {
+    if (confirm("Deseja realmente esvaziar seu deck atual?")) {
+        localStorage.removeItem('cart');
+        renderCart();
+        if (window.updateCartCounter) window.updateCartCounter();
+    }
+};
