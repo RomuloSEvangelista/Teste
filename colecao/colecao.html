@@ -7,11 +7,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* Estrutura para fixar o rodapé */
+        html, body {
+            height: 100%;
+        }
         body { 
             background: radial-gradient(circle, #1a1a2e 0%, #000000 100%); 
             font-family: 'Inter', sans-serif;
             color: white;
-            min-vh: 100vh;
+            display: flex;
+            flex-grow: 1;
+            flex-direction: column;
         }
         .hero-title {
             font-family: 'Cinzel', serif;
@@ -25,47 +31,58 @@
         .card-colecao:hover {
             box-shadow: 0 0 20px rgba(241, 196, 15, 0.3);
         }
+        /* Container que cresce para empurrar o footer */
+        .content-wrapper {
+            flex: 1 0 auto;
+        }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-dark bg-black border-bottom border-secondary mb-5">
-        <div class="container">
-            <a class="navbar-brand hero-title fs-3" href="catalogo.html">SERRATEC</a>
-            <a href="catalogo.html" class="btn btn-outline-light btn-sm">Voltar ao Catálogo</a>
-        </div>
-    </nav>
-    
-   
-    <div class="container">
-        <header class="text-center mb-5">
-            <h1 class="hero-title display-4">Meu Deck Pessoal</h1>
-            <p class="text-white-50">Estas são as relíquias que você já conquistou.</p>
-        </header>
+    <!-- Wrapper para o conteúdo principal -->
+    <div class="content-wrapper">
+        <nav class="navbar navbar-dark bg-black border-bottom border-secondary mb-5">
+            <div class="container">
+                <a class="navbar-brand hero-title fs-3" href="catalogo.html">SERRATEC</a>
+                <a href="catalogo.html" class="btn btn-outline-light btn-sm">Voltar ao Catálogo</a>
+            </div>
+        </nav>
+        
+        <div class="container mb-5">
+            <header class="text-center mb-5">
+                <h1 class="hero-title display-4">Meu Deck Pessoal</h1>
+                <p class="text-white-50">Estas são as relíquias que você já conquistou.</p>
+            </header>
 
-        <!-- IMPORTANTE: O container com o ID que o JS procura -->
-        <div id="colecao-container" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-            <!-- As cartas compradas aparecerão aqui -->
+            <div id="colecao-container" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                <!-- JS injeta aqui -->
+            </div>
         </div>
     </div>
 
+    <!-- Rodapé sempre no fim -->
+    <footer class="bg-black text-white-50 py-4 border-top border-secondary text-center">
+        <div class="container">
+            <small>© 2026 Serratec Deck Builder - O conhecimento é sua melhor carta.</small>
+        </div>
+    </footer>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Identifica quem está logado
-            const usuarioAtivo = localStorage.getItem('usuarioLogado');
+            const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
             
-            if (!usuarioAtivo) {
+            if (!usuarioLogado) {
                 window.location.href = "../login/login.html";
                 return;
             }
 
-            // 2. Busca o deck específico desse usuário
-            const chaveColecao = `deck_${usuarioAtivo}`;
+            // Usa o email ou e-mail como chave única
+            const usuarioId = usuarioLogado.email || usuarioLogado["e-mail"];
+            const chaveColecao = `deck_${usuarioId}`;
             const minhaColecao = JSON.parse(localStorage.getItem(chaveColecao)) || [];
 
             const container = document.getElementById('colecao-container');
 
-            // 3. Verifica se tem algo na "pasta"
             if (minhaColecao.length === 0) {
                 container.innerHTML = `
                     <div class="col-12 text-center mt-5">
@@ -75,15 +92,15 @@
                 return;
             }
 
-            // 4. Renderiza as cartas compradas
-            container.innerHTML = ""; // Limpa o container
+            container.innerHTML = ""; 
             minhaColecao.forEach(card => {
+                // Ajustado o caminho da imagem para ../img/
                 container.innerHTML += `
                     <div class="col">
                         <div class="card h-100 bg-dark text-white card-colecao">
-                            <img src="img/${card.img}" class="card-img-top p-2" 
-                                 style="height:300px; object-fit:contain;"
-                                 onerror="this.src='https://via.placeholder.com/300x300?text=Card'">
+                            <img src="${card.img}" class="card-img-top p-2" 
+                                 style="height:300px; object-fit:cover;"
+                                 onerror="this.src='../img/padrao.png'">
                             <div class="card-body text-center d-flex flex-column">
                                 <h5 class="fw-bold mb-0">${card.name}</h5>
                                 <p class="text-warning small mb-3">${card.type}</p>

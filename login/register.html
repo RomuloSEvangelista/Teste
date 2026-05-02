@@ -11,42 +11,60 @@
     <style>
         body { 
             font-family: 'Inter', sans-serif; 
-            background: radial-gradient(circle, #1a1a1a 0%, #000000 100%); 
+            background: radial-gradient(circle, #2c3e50 0%, #000000 100%); 
             color: white; 
             min-height: 100vh; 
+            display: flex;
+            flex-direction: column;
         }
-        .hero-title { 
-            font-family: 'Cinzel', serif; 
-            color: #f1c40f; 
-        }
+        main { flex: 1; } 
+
+        .hero-title { font-family: 'Cinzel', serif; color: #f1c40f; text-shadow: 0 0 15px rgba(241, 196, 15, 0.3); }
+        
         .card-auth { 
-            background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%); 
-            border: 1px solid rgba(241, 196, 15, 0.3); 
+            background: rgba(20, 20, 20, 0.8); 
+            backdrop-filter: blur(10px); 
+            border: 1px solid rgba(241, 196, 15, 0.2); 
+            transition: all 0.3s ease; 
         }
+
         .form-control { 
             background-color: rgba(255, 255, 255, 0.05) !important; 
             border: 1px solid rgba(255, 255, 255, 0.2) !important; 
             color: white !important; 
         }
+
         .form-control:focus {
             border-color: #f1c40f !important;
-            box-shadow: 0 0 8px rgba(241, 196, 15, 0.3);
+            box-shadow: 0 0 10px rgba(241, 196, 15, 0.2);
         }
-        .btn-outline-gold { 
-            border: 2px solid #f1c40f; 
-            color: #f1c40f; 
-            font-weight: bold; 
-            transition: all 0.3s;
-        }
-        .btn-outline-gold:hover { 
-            background: #f1c40f; 
+
+        /* --- ESTILIZAÇÃO DO BOTÃO --- */
+        .btn-gold { 
+            background-color: #f1c40f; 
             color: black; 
+            font-weight: 800; 
+            border: none; 
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(241, 196, 15, 0.2);
+        }
+
+        .btn-gold:hover { 
+            background-color: #ffda44; 
+            color: black;
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(241, 196, 15, 0.5);
+        }
+
+        .btn-gold:active {
+            transform: translateY(0);
         }
     </style>
 </head>
 <body class="d-flex align-items-center">
-    <main class="container py-5">
-        <div class="row justify-content-center">
+    <main class="container py-5 d-flex align-items-center">
+        <div class="row justify-content-center w-100 m-0">
             <div class="col-12 col-md-6 col-lg-4">
                 
                 <div class="card card-auth shadow-lg rounded-4">
@@ -56,7 +74,6 @@
                             <p class="text-white-50">Inicie sua jornada lendária</p>
                         </div>
                        
-                        <!-- Formulário Único e Organizado -->
                         <form id="registerForm">
                             <div class="mb-3">
                                 <label for="regNome" class="form-label fw-semibold">Nome Completo</label>
@@ -79,14 +96,14 @@
                             </div>
 
                             <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-outline-gold btn-lg">CRIAR MINHA CONTA</button>
+                                <!-- Botão atualizado para btn-gold -->
+                                <button type="submit" class="btn btn-gold btn-lg">CRIAR MINHA CONTA</button>
                                 <a href="login.html" class="btn btn-link btn-sm text-white-50 mt-2 text-decoration-none">Já tenho uma conta</a>
                             </div>
                         </form>
                     </div>
                 </div>
 
-                <!-- Botão Voltar -->
                 <div class="text-center mt-4">
                     <a href="../index.html" class="text-decoration-none text-white-50 small">
                         <span class="me-1">←</span> Voltar ao Início
@@ -97,9 +114,13 @@
         </div>
     </main>
 
-    <!-- Scripts -->
+    <footer class="bg-black text-white-50 py-4 border-top border-secondary text-center w-100">
+        <div class="container">
+            <small>© 2026 Serratec Deck Builder - O conhecimento é sua melhor carta.</small>
+        </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Caminho corrigido para a pasta js na raiz -->
     <script src="usuarioScript.js"></script>
 </body>
 </html>

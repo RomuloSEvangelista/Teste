@@ -123,7 +123,7 @@ function renderCart() {
     if (cart.length === 0) {
         container.innerHTML = `
             <div class="alert alert-dark text-center border-secondary">
-                Seu deck está vazio. <a href="catalogo.html" class="text-warning">Vá buscar novas cartas!</a>
+                Seu deck está vazio. <a href="../colecao/catalogo.html" class="text-warning">Vá buscar novas cartas!</a>
             </div>`;
         totalItemsElem.innerText = "0";
         cartTotalElem.innerText = "R$ 0,00";

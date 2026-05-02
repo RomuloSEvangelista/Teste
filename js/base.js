@@ -1,22 +1,24 @@
 // 1. BANCO DE DADOS
 const cardsData = [
-    { id: 1, name: "Prof. Raphael", price: 80.00, type: "Logica de Programação", img: "Raphael.png", desc: "Loop Infinito de Conhecimento." },
-    { id: 2, name: "Prof. Romulo", price: 65.00, type: "Banco de Dados", img: "Romulo.png", desc: "Habilidade: Aprende enquanto ensina." },
-    { id: 3, name: "Ivy", price: 3.00, type: "Alunos", img: "ivy.png", desc: "Comunicação rápida e eficiente." },
-    { id: 4, name: "Prof. Breno", price: 70.00, type: "POO", img: "breno.png", desc: "Mago POO. Encapsula erros." },
-    { id: 5, name: "Prof. Menegueli", price: 85.00, type: "Front End", img: "menegueli.png", desc: "Mestre das interfaces." }
+    { id: 1, name: "Prof. Raphael", price: 80.00, type: "Logica de Programação", img: "../img/Raphael.png", desc: "Loop Infinito de Conhecimento." },
+    { id: 2, name: "Prof. Romulo", price: 65.00, type: "Banco de Dados", img: "../img/Romulo.png", desc: "Habilidade: Aprende enquanto ensina." },
+    { id: 3, name: "Ivy", price: 3.00, type: "Alunos", img: "../img/ivy.png", desc: "Comunicação rápida e eficiente." },
+    { id: 4, name: "Prof. Breno", price: 70.00, type: "POO", img: "../img/breno.png", desc: "Mago POO. Encapsula erros." },
+    { id: 5, name: "Prof. Menegueli", price: 85.00, type: "Front End", img: "../img/menegueli.png", desc: "Mestre das interfaces." }
 ];
 
 // 2. FUNÇÕES DE SESSÃO E NAVEGAÇÃO
-window.logoutSerratec = function() {
+function logoutSerratec() {
     localStorage.removeItem('usuarioLogado');
-    window.location.href = "./login/login.html";
-};
+    alert("Sessão encerrada!");
+    window.location.href = "../login/login.html";
+}
 
 // 3. GESTÃO DO CARRINHO (COMPRA TEMPORÁRIA)
 window.addToCart = function(id) {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const product = cardsData.find(p => p.id === id);
+    
     if (product) {
         cart.push(product);
         localStorage.setItem('cart', JSON.stringify(cart));
@@ -33,22 +35,26 @@ window.updateCartCounter = function() {
 
 // 4. LÓGICA DE COMPRA (TRANSFERE PARA A COLEÇÃO PERMANENTE DO USUÁRIO)
 window.finalizarCompra = function() {
-    const usuarioAtivo = localStorage.getItem('usuarioLogado');
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
     const carrinho = JSON.parse(localStorage.getItem('cart')) || [];
 
-    if (carrinho.length === 0) {
-        alert("Seu carrinho está vazio! Adicione cartas antes de finalizar.");
+    if (!usuarioLogado) {
+        alert("Você precisa estar logado para finalizar a compra.");
         return;
     }
 
-    // Identifica a "pasta" única do usuário logado
-    const chaveColecao = `deck_${usuarioAtivo}`;
+    if (carrinho.length === 0) {
+        alert("Seu carrinho está vazio!");
+        return;
+    }
+
+    // Identifica a chave única usando o email ou id do usuário
+    const usuarioId = usuarioLogado.email || usuarioLogado["e-mail"];
+    const chaveColecao = `deck_${usuarioId}`;
     
-    // Pega o que ele já possui e junta com o novo
     const colecaoAtual = JSON.parse(localStorage.getItem(chaveColecao)) || [];
     const novaColecao = [...colecaoAtual, ...carrinho];
     
-    // Salva na coleção definitiva e limpa o carrinho
     localStorage.setItem(chaveColecao, JSON.stringify(novaColecao));
     localStorage.removeItem('cart');
     
@@ -57,58 +63,70 @@ window.finalizarCompra = function() {
 };
 
 // 5. RENDERIZAÇÃO E FILTROS
-function renderCards(lista) {
+function renderizarCards(lista) {
     const container = document.getElementById('card-container');
     if (!container) return;
-    container.innerHTML = "";
 
-    lista.forEach(card => {
-        container.innerHTML += `
-            <div class="col d-flex justify-content-center">
-                <div class="card h-100 card-item bg-dark text-white shadow">
-                    <img src="img/${card.img}" class="card-img-top" alt="${card.name}"
-                         onerror="this.src='https://via.placeholder.com/300x320?text=Sem+Foto'">
-                    <div class="card-body text-center d-flex flex-column">
-                        <h5 class="card-title fw-bold text-warning">${card.name}</h5>
-                        <p class="small text-muted mb-2" style="font-size: 0.8rem;">${card.type}</p>
-                        <p class="card-text small fst-italic mb-3" style="flex-grow: 1;">"${card.desc}"</p>
-                        <p class="fw-bold fs-5 mb-2">R$ ${card.price.toFixed(2).replace('.', ',')}</p>
-                        <button onclick="addToCart(${card.id})" class="btn btn-warning btn-sm fw-bold text-dark">
-                            Adicionar ao Deck
+    container.innerHTML = lista.map(card => `
+        <div class="col">
+            <div class="card card-item h-100 bg-dark text-white shadow">
+                <img src="${card.img}" 
+                     class="card-img-top p-2" 
+                     alt="${card.name}"
+                     style="height: 320px; object-fit: cover;"
+                     onerror="this.onerror=null; this.src='../img/padrao.png';"> 
+                
+                <div class="card-body text-center d-flex flex-column">
+                    <h5 class="card-title text-warning">${card.name}</h5>
+                    <p class="mb-1 text-white-50 small">${card.desc}</p>
+                    <p class="mb-3">
+                        <span class="badge bg-primary">${card.type}</span>
+                    </p>
+                    <p class="fw-bold text-success">R$ ${card.price.toFixed(2)}</p>
+                    
+                    <div class="mt-auto">
+                        <button class="btn btn-outline-warning w-100" onclick="addToCart(${card.id})">
+                            🛒 Adicionar
                         </button>
                     </div>
                 </div>
-            </div>`;
+            </div>
+        </div>
+    `).join('');
+}
+
+function aplicarFiltros() {
+    const termoBusca = document.getElementById('searchInput')?.value.toLowerCase() || "";
+    const classeSelecionada = document.getElementById('filterType')?.value || "all";
+
+    const listaFiltrada = cardsData.filter(card => {
+        const nomeBate = card.name.toLowerCase().includes(termoBusca);
+        const classeBate = (classeSelecionada === "all") || (card.type === classeSelecionada);
+        return nomeBate && classeBate;
     });
+
+    renderizarCards(listaFiltrada);
 }
 
-function filtrar() {
-    const busca = document.getElementById('searchInput')?.value.toLowerCase() || "";
-    const tipo = document.getElementById('filterType')?.value || "all";
-    const filtrados = cardsData.filter(c => 
-        (tipo === 'all' || c.type === tipo) && c.name.toLowerCase().includes(busca)
-    );
-    renderCards(filtrados);
-}
-
-// 6. INICIALIZAÇÃO
+// 6. INICIALIZAÇÃO E EVENTOS
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Verifica em qual página estamos
-    const path = window.location.pathname;
-    const paginaAtual = path.split("/").pop();
-
-    // 2. Proteção de Rota: Só redireciona se NÃO for o index ou o login
-    // Permitimos que o usuário veja o index.html sem estar logado
+    // Verificação básica de login
     if (!localStorage.getItem('usuarioLogado')) {
-        if (paginaAtual !== "index.html" && paginaAtual !== "./login/login.html" && paginaAtual !== "") {
-            window.location.href = "./login/login.html";
-            return; 
+        // Se não estiver no login ou index, manda para o login
+        const path = window.location.pathname;
+        if (!path.includes("login.html") && !path.endsWith("index.html") && path !== "/") {
+            window.location.href = "../login/login.html";
+            return;
         }
     }
 
-    // 3. Só tenta renderizar cartas se o container existir (evita erro no index)
+    // Só renderiza se estiver na página que tem o container
     if (document.getElementById('card-container')) {
-        renderCards(cardsData);
+        renderizarCards(cardsData);
+        
+        // Ativa os listeners de filtro apenas se os elementos existirem
+        document.getElementById('searchInput')?.addEventListener('input', aplicarFiltros);
+        document.getElementById('filterType')?.addEventListener('change', aplicarFiltros);
     }
     
     updateCartCounter();
