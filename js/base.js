@@ -1,10 +1,10 @@
 // 1. BANCO DE DADOS
 const cardsData = [
-    { id: 1, name: "Prof. Raphael", price: 50.00, type: "Logica de Programação", img: "Raphael.png", desc: "Loop Infinito de Conhecimento." },
-    { id: 2, name: "Prof. Romulo", price: 45.00, type: "Banco de Dados", img: "Romulo.png", desc: "Habilidade: Aprende enquanto ensina." },
-    { id: 3, name: "Ivy", price: 15.00, type: "Alunos", img: "ivy.png", desc: "Comunicação rápida e eficiente." },
-    { id: 4, name: "Prof. Breno", price: 15.00, type: "POO", img: "breno.png", desc: "Mago POO. Encapsula erros." },
-    { id: 5, name: "Prof. Menegueli", price: 15.00, type: "Front End", img: "menegueli.png", desc: "Mestre das interfaces." }
+    { id: 1, name: "Prof. Raphael", price: 80.00, type: "Logica de Programação", img: "Raphael.png", desc: "Loop Infinito de Conhecimento." },
+    { id: 2, name: "Prof. Romulo", price: 65.00, type: "Banco de Dados", img: "Romulo.png", desc: "Habilidade: Aprende enquanto ensina." },
+    { id: 3, name: "Ivy", price: 3.00, type: "Alunos", img: "ivy.png", desc: "Comunicação rápida e eficiente." },
+    { id: 4, name: "Prof. Breno", price: 70.00, type: "POO", img: "breno.png", desc: "Mago POO. Encapsula erros." },
+    { id: 5, name: "Prof. Menegueli", price: 85.00, type: "Front End", img: "menegueli.png", desc: "Mestre das interfaces." }
 ];
 
 // 2. FUNÇÕES DE SESSÃO E NAVEGAÇÃO
