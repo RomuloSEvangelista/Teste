@@ -84,14 +84,14 @@
                         } else {
                             // Se não estiver logado, vai para o login
                             alert("Acesso restrito a Mestres. Por favor, faça login.");
-                            window.location.href = "../login/login.html";
+                            window.location.href = "login/login.html";
                         }
                     });
                     </script>
 
                     <!-- Botão de Sair só aparece se houver usuário logado (tratado via JS ou CSS básico) -->
                     <li class="nav-item ms-lg-3" id="menu-logout" style="display: none;">
-                        <button onclick="logoutSerratec()" class="btn btn-sm btn-outline-danger">Sair</button>
+                        <button onclick="logout()" class="btn btn-sm btn-outline-danger">Sair</button>
                         
                     </li>
                 </ul>

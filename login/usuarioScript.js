@@ -9,20 +9,17 @@ if (registerForm) {
     registerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // 1. Captura de dados
         const nome = document.getElementById('regNome').value.trim();
         const email = document.getElementById('regEmail').value.trim();
         const password = document.getElementById('regPassword').value;
         const confirm = document.getElementById('confirmPassword').value;
 
-        // 2. Validação de senha
         if (password !== confirm) {
             alert("As senhas não coincidem!");
             return;
         }
 
         try {
-            // 3. Verificação de e-mail duplicado na API
             const res = await fetch(API_URL);
             if (!res.ok) throw new Error("Erro ao acessar servidor");
             
@@ -34,7 +31,6 @@ if (registerForm) {
                 return;
             }
 
-            // 4. Criação do novo usuário (POST)
             const saveRes = await fetch(API_URL, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -70,13 +66,11 @@ if (loginForm) {
         const password = document.getElementById('password').value;
 
         try {
-            // 1. Busca usuários
             const res = await fetch(API_URL);
             if (!res.ok) throw new Error("Erro ao acessar servidor");
             
             const users = await res.json();
 
-            // 2. Validação de credenciais
             const usuarioEncontrado = users.find(u => 
                 (u["e-mail"] === email || u["email"] === email) && u.senha === password
             );
@@ -84,11 +78,9 @@ if (loginForm) {
             if (usuarioEncontrado) {
                 alert(`Login realizado com sucesso! Bem-vindo, ${usuarioEncontrado.nome || 'Lenda'}!`);
 
-                // 3. Persistência da sessão
-                localStorage.removeItem('usuarioLogado'); // Limpa sessões antigas
+                localStorage.removeItem('usuarioLogado');
                 localStorage.setItem('usuarioLogado', JSON.stringify(usuarioEncontrado));
 
-                // 4. Redirecionamento (sobe um nível para a raiz)
                 window.location.href = "../index.html";
             } else {
                 alert("E-mail ou senha incorretos!");
@@ -102,11 +94,100 @@ if (loginForm) {
 }
 
 // ==========================================
-// --- FUNÇÃO DE LOGOUT (OPCIONAL) ---
+// --- LÓGICA DE EDITAR PERFIL ---
+// ==========================================
+const editForm = document.getElementById('editForm');
+
+if (editForm) {
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+    if (!usuarioLogado) {
+        alert("Você precisa estar logado!");
+        window.location.href = "../login/login.html";
+    } else {
+        document.getElementById('editNome').value = usuarioLogado.nome || '';
+        document.getElementById('editEmail').value = usuarioLogado['e-mail'] || usuarioLogado.email || '';
+    }
+
+    editForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const novoNome  = document.getElementById('editNome').value.trim();
+        const novoEmail = document.getElementById('editEmail').value.trim();
+        const novaSenha = document.getElementById('editSenha').value;
+
+        const dadosAtualizados = {
+            nome: novoNome,
+            "e-mail": novoEmail,
+        };
+
+        if (novaSenha) {
+            dadosAtualizados.senha = novaSenha;
+        }
+
+        try {
+            const res = await fetch(`${API_URL}/${usuarioLogado.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dadosAtualizados)
+            });
+
+            if (!res.ok) throw new Error("Erro ao atualizar");
+
+            const usuarioAtualizado = await res.json();
+
+            localStorage.setItem('usuarioLogado', JSON.stringify(usuarioAtualizado));
+
+            alert("Dados atualizados com sucesso!");
+
+        } catch (error) {
+            console.error("Erro ao editar:", error);
+            alert("Erro ao atualizar os dados. Tente novamente.");
+        }
+    });
+}
+
+// ==========================================
+// --- LÓGICA DE EXCLUIR CONTA ---
+// ==========================================
+const btnExcluir = document.getElementById('btnExcluirConta');
+
+if (btnExcluir) {
+    btnExcluir.addEventListener('click', async () => {
+
+        const confirmou = confirm("Tem certeza que deseja excluir sua conta? Esta ação é irreversível.");
+        if (!confirmou) return;
+
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+        if (!usuarioLogado) {
+            alert("Nenhum usuário logado.");
+            return;
+        }
+
+        try {
+            const res = await fetch(`${API_URL}/${usuarioLogado.id}`, {
+                method: 'DELETE'
+            });
+
+            if (!res.ok) throw new Error("Erro ao excluir");
+
+            localStorage.removeItem('usuarioLogado');
+
+            alert("Conta excluída com sucesso. Até mais!");
+            window.location.href = "../login/login.html";
+
+        } catch (error) {
+            console.error("Erro ao excluir conta:", error);
+            alert("Erro ao excluir a conta. Tente novamente.");
+        }
+    });
+}
+
+// ==========================================
+// --- LOGOUT ---
 // ==========================================
 function logout() {
     localStorage.removeItem('usuarioLogado');
     window.location.href = "login/login.html";
 }
-
-
