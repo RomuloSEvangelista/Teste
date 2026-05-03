@@ -62,8 +62,8 @@ function renderCart() {
             <div class="card bg-black border-secondary p-3 shadow-sm mb-2">
                 <div class="row align-items-center">
                     <div class="col-3 col-md-2">
-                        <img src="${item.img}" class="img-fluid rounded" alt="${item.name}"
-                             onerror="this.src='https://placehold.co/100?text=Card'">
+                    <img src="${(item.img || '').replace('../', '')}" class="img-fluid rounded" alt="${item.nome || item.name}"
+                            onerror="this.src='https://placehold.co/100?text=Card'">
                     </div>
                     <div class="col-6 col-md-7">
                         <h5 class="mb-0 text-warning">${item.name}</h5>
