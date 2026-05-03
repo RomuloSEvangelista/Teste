@@ -4,11 +4,11 @@
  */
 
 const baseCartasOficial = [
-    { id: "1", name: "Prof. Raphael",  img: "../img/Raphael.png",   type: "Logica de Programação" },
-    { id: "2", name: "Prof. Romulo",   img: "../img/Romulo.png",    type: "Banco de Dados" },
-    { id: "3", name: "Ivy",            img: "../img/ivy.png",       type: "Alunos" },
-    { id: "4", name: "Prof. Breno",    img: "../img/breno.png",     type: "POO" },
-    { id: "5", name: "Prof. Menegueli",img: "../img/menegueli.png", type: "Front End" }
+    { id: "1", name: "Prof. Raphael",   price: 85, img: "../img/Raphael.png",   type: "Logica de Programação" },
+    { id: "2", name: "Prof. Romulo",    price: 65, img: "../img/Romulo.png",    type: "Banco de Dados" },
+    { id: "3", name: "Ivy",             price: 3,  img: "../img/ivy.png",       type: "Alunos" },
+    { id: "4", name: "Prof. Breno",     price: 80, img: "../img/breno.png",     type: "POO" },
+    { id: "5", name: "Prof. Menegueli", price: 90, img: "../img/menegueli.png", type: "Front End" }
 ];
 
 function getCardById(id) {
@@ -39,7 +39,10 @@ async function renderizarMinhaColecao() {
     }
 
     meusIds.forEach(idDaCarta => {
-        const carta = baseCartasOficial.find(c => c.id == idDaCarta);
+        const carta = baseCartasOficial.find(c => c.id == idDaCarta);const nome  = card ? card.name  : `Card #${idCard}`;
+        const tipo  = card ? card.type  : "Desconhecido";
+        const img   = card ? card.img   : "https://placehold.co/350x450?text=Card";
+        const price = card ? card.price : 0;
 
         if (carta) {
             somaValores += carta.price;
@@ -50,7 +53,8 @@ async function renderizarMinhaColecao() {
                         <img src="${carta.img}" class="card-img-top p-2" style="height: 200px; object-fit: contain;">
                         <div class="card-body text-center p-2">
                             <h6 class="card-title fw-bold small">${carta.name}</h6>
-                            <p class="text-warning mb-0 small">Avaliada em:</p>
+                            <span class="text-white-50 small">💰 Avaliada em R&#36; ${price.toFixed(2).replace('.', ',')}</span>
+
                             <p class="fw-bold">R$ ${carta.price.toFixed(2).replace('.', ',')}</p>
                         </div>
                     </div>

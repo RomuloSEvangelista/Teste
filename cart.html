@@ -59,7 +59,11 @@
                     <button class="btn btn-warning w-100 fw-bold py-3 mb-3 shadow" onclick="checkout()">
                         FINALIZAR E GUARDAR NO DECK
                     </button>
-                    
+                    <span class="text-white-50 small">💰 Avaliada em R$ ${price.toFixed(2).replace('.', ',')}</span>
+                    <span class="badge bg-success w-100">ADQUIRIDA</span>
+                    <button class="btn btn-remover w-100" onclick="removerCard(${index})">
+                    🗑️ Remover da Coleção
+                </button>
                     <button class="btn btn-outline-danger w-100 btn-sm opacity-75" onclick="clearCart()">
                         Esvaziar Carrinho
                     </button>
