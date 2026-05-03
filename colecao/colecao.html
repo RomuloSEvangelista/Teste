@@ -46,21 +46,25 @@
 <body>
 
     <div class="content-wrapper">
-        <nav class="navbar navbar-dark bg-black border-bottom border-secondary mb-5">
-            <div class="container">
-                <a class="navbar-brand hero-title fs-3" href="../index.html">SERRATEC</a>
-                <a href="catalogo.html" class="btn btn-outline-light btn-sm">Voltar ao Catálogo</a>
+        <nav class="navbar navbar-dark bg-black border-bottom border-secondary mb-3">
+            
+        <a class="navbar-brand hero-title fs-3" href="../index.html">SERRATEC</a>
+        <div class="d-flex gap-2">
+            <a href="catalogo.html" class="btn btn-outline-light btn-sm">Voltar ao Catálogo</a>
+            <button onclick="logout()" class="btn btn-sm btn-danger">Sair</button>
+        </div>
+    
             </div>
         </nav>
         
         <div class="container mb-5">
-            <header class="text-center mb-5">
+            <header class="text-center mb-3">
                 <h1 class="hero-title display-4">Meu Deck Pessoal</h1>
                 <p class="text-white-50">Estas são as relíquias que você já conquistou.</p>
             </header>
 
-            <div id="colecao-container" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-                <!-- JS injeta aqui -->
+            <div id="colecao-container" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 justify-content-center">
+         <!-- JS injeta aqui -->
             </div>
         </div>
     </div>
@@ -124,10 +128,10 @@
 
                 if (idCards.length === 0) {
                     container.innerHTML = `
-                        <div class="col-12 text-center mt-5">
-                            <p class="fs-4 opacity-50">Seu grimório está vazio...</p>
-                            <a href="../loja/loja.html" class="btn btn-warning">Ir à Loja</a>
-                        </div>`;
+                <div style="width:100%; text-align:center; padding-top: 3rem;">
+                    <p class="fs-4 opacity-50">Seu grimório está vazio...</p>
+                    <a href="../loja/loja.html" class="btn btn-warning">Ir à Loja</a>
+                </div>`;
                     return;
                 }
 
