@@ -7,7 +7,7 @@ if (typeof cartasDisponiveis === 'undefined') {
 }
 
 function addToCart(cardId) {
-    const card = cartasDisponiveis.find(c => c.id_card === cardId);
+    var card = cartasDisponiveis.find(c => c.id_card === cardId);
     if (!card) return;
 
     const cart = JSON.parse(localStorage.getItem('cart')) || [];

@@ -79,7 +79,10 @@ if (loginForm) {
                 alert(`Login realizado com sucesso! Bem-vindo, ${usuarioEncontrado.nome || 'Lenda'}!`);
 
                 localStorage.removeItem('usuarioLogado');
-                localStorage.setItem('usuarioLogado', JSON.stringify(usuarioEncontrado));
+                localStorage.setItem('usuarioLogado', JSON.stringify({
+                    ...usuarioEncontrado,
+                    id: usuarioEncontrado.id
+                }));
 
                 window.location.href = "../index.html";
             } else {
@@ -184,7 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
 });
 
 // ==========================================
