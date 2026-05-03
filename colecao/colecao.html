@@ -7,9 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        html, body {
-            height: 100%;
-        }
+        html, body { height: 100%; }
         body { 
             background: radial-gradient(circle, #1a1a2e 0%, #000000 100%); 
             font-family: 'Inter', sans-serif;
@@ -17,16 +15,8 @@
             display: flex;
             flex-direction: column;
         }
-        .hero-title {
-            font-family: 'Cinzel', serif;
-            color: #f1c40f;
-            text-shadow: 0 0 15px rgba(241, 196, 15, 0.5);
-        }
-        .content-wrapper {
-            flex: 1 0 auto;
-        }
-
-        /* Card inteiro, sem cortar imagem */
+        .hero-title { font-family: 'Cinzel', serif; color: #f1c40f; text-shadow: 0 0 15px rgba(241, 196, 15, 0.5); }
+        .content-wrapper { flex: 1 0 auto; }
         .card-colecao {
             border: 1px solid #f1c40f !important;
             transition: 0.3s;
@@ -38,8 +28,8 @@
         }
         .card-colecao img {
             width: 100%;
-            height: auto;        /* altura automática — carta inteira */
-            object-fit: contain; /* não corta, não distorce */
+            height: auto;
+            object-fit: contain;
             padding: 8px;
             background: #0d0d0d;
         }
@@ -50,10 +40,7 @@
             font-size: 0.75rem;
             transition: 0.3s;
         }
-        .btn-remover:hover {
-            background: #dc3545;
-            color: white;
-        }
+        .btn-remover:hover { background: #dc3545; color: white; }
     </style>
 </head>
 <body>
@@ -61,7 +48,7 @@
     <div class="content-wrapper">
         <nav class="navbar navbar-dark bg-black border-bottom border-secondary mb-5">
             <div class="container">
-                <a class="navbar-brand hero-title fs-3" href="catalogo.html">SERRATEC</a>
+                <a class="navbar-brand hero-title fs-3" href="../index.html">SERRATEC</a>
                 <a href="catalogo.html" class="btn btn-outline-light btn-sm">Voltar ao Catálogo</a>
             </div>
         </nav>
@@ -84,42 +71,64 @@
         </div>
     </footer>
 
+    <!-- Scripts no final do body -->
+    <script src="../js/base.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        const baseCartasOficial = [
+            { id_card: 1,  name: "Prof. Raphael",   type: "Logica de Programação", img: "../img/Raphael.png"   },
+            { id_card: 2,  name: "Prof. Romulo",    type: "Banco de Dados",        img: "../img/Romulo.png"    },
+            { id_card: 3,  name: "Ivy",             type: "Alunos",                img: "../img/ivy.png"       },
+            { id_card: 4,  name: "Prof. Breno",     type: "POO",                   img: "../img/breno.png"     },
+            { id_card: 5,  name: "Prof. Menegueli", type: "Front End",             img: "../img/menegueli.png" }
+        ];
+
+        function getCardById(id_card) {
+            return baseCartasOficial.find(c => c.id_card == id_card) || null;
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
             const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
             if (!usuarioLogado) {
-                window.location.href = "./login/login.html";
+                window.location.href = "../login/login.html";
                 return;
             }
 
-            const usuarioId = usuarioLogado.email || usuarioLogado["e-mail"];
-            const chaveColecao = `deck_${usuarioId}`;
+            const container = document.getElementById('colecao-container');
+            container.innerHTML = `<div class="col-12 text-center text-white-50"><p>Carregando coleção...</p></div>`;
 
-            function renderColecao() {
-                const minhaColecao = JSON.parse(localStorage.getItem(chaveColecao)) || [];
-                const container = document.getElementById('colecao-container');
+            try {
+                const res = await fetch(`https://69f60881a72f01a951b91cd8.mockapi.io/cards/${usuarioLogado.id}`);
+                const usuarioAtual = await res.json();
 
-                if (minhaColecao.length === 0) {
+                localStorage.setItem('usuarioLogado', JSON.stringify(usuarioAtual));
+
+                const idCards = usuarioAtual.id_card || [];
+
+                if (idCards.length === 0) {
                     container.innerHTML = `
                         <div class="col-12 text-center mt-5">
                             <p class="fs-4 opacity-50">Seu grimório está vazio...</p>
-                            <a href="catalogo.html" class="btn btn-warning">Ir às compras</a>
+                            <a href="../loja/loja.html" class="btn btn-warning">Ir à Loja</a>
                         </div>`;
                     return;
                 }
 
                 container.innerHTML = "";
-                minhaColecao.forEach((card, index) => {
+                idCards.forEach((idCard, index) => {
+                    const card = getCardById(idCard);
+                    const nome = card ? card.name : `Card #${idCard}`;
+                    const tipo = card ? card.type : "Desconhecido";
+                    const img  = card ? card.img  : "https://placehold.co/350x450?text=Card";
+
                     container.innerHTML += `
                         <div class="col">
                             <div class="card card-colecao text-white">
-                                <img src="${card.img}" 
-                                     alt="${card.name}"
-                                     onerror="this.src='../img/padrao.png'">
+                                <img src="${img}" alt="${nome}"
+                                     onerror="this.src='https://placehold.co/350x450?text=Card'">
                                 <div class="card-body text-center d-flex flex-column">
-                                    <h5 class="fw-bold mb-0">${card.name}</h5>
-                                    <p class="text-warning small mb-3">${card.type}</p>
+                                    <h5 class="fw-bold mb-0">${nome}</h5>
+                                    <p class="text-warning small mb-3">${tipo}</p>
                                     <div class="mt-auto d-flex flex-column gap-2">
                                         <span class="badge bg-success w-100">ADQUIRIDA</span>
                                         <button class="btn btn-remover w-100" onclick="removerCard(${index})">
@@ -130,21 +139,30 @@
                             </div>
                         </div>`;
                 });
+
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = `<div class="col-12 text-center text-danger"><p>Erro ao carregar coleção.</p></div>`;
             }
 
-            // Expõe a função globalmente para o onclick funcionar
-            window.removerCard = function(index) {
+            window.removerCard = async function(index) {
                 const confirmou = confirm("Deseja remover esta carta da sua coleção?");
                 if (!confirmou) return;
 
-                const minhaColecao = JSON.parse(localStorage.getItem(chaveColecao)) || [];
-                minhaColecao.splice(index, 1);
-                localStorage.setItem(chaveColecao, JSON.stringify(minhaColecao));
+                const usuarioAtual = JSON.parse(localStorage.getItem('usuarioLogado'));
+                const idCards = usuarioAtual.id_card || [];
+                idCards.splice(index, 1);
 
-                renderColecao(); // Re-renderiza sem recarregar a página
+                await fetch(`https://69f60881a72f01a951b91cd8.mockapi.io/cards/${usuarioAtual.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id_card: idCards })
+                });
+
+                usuarioAtual.id_card = idCards;
+                localStorage.setItem('usuarioLogado', JSON.stringify(usuarioAtual));
+                location.reload();
             };
-
-            renderColecao();
         });
     </script>
 </body>

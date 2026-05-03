@@ -184,6 +184,73 @@ if (btnExcluir) {
     });
 }
 
+
+
+// ========================= teste===========
+async function comprarEAbrirPacote() {
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    const API_USUARIOS = "https://69f60881a72f01a951b91cd8.mockapi.io/usuarios";
+    const API_CARDS = "https://69f60881a72f01a951b91cd8.mockapi.io/cards";
+
+    if (!usuarioLogado) return alert("Faça login para comprar pacotes!");
+
+    try {
+        // 1. Pegar todos os IDs de cartas disponíveis no sistema
+        const resCards = await fetch(API_CARDS);
+        const todasAsCartas = await resCards.json();
+        
+        // 2. Sortear 3 IDs aleatórios
+        const novosIdsSorteados = [];
+        for (let i = 0; i < 3; i++) {
+            const index = Math.floor(Math.random() * todasAsCartas.length);
+            novosIdsSorteados.push(todasAsCartas[index].id);
+        }
+
+        // 3. Mesclar com a coleção atual do usuário (evitando perder o que ele já tinha)
+        // Se usuarioLogado.colecao não existir, começamos com um array vazio
+        const colecaoAtual = usuarioLogado.colecao || [];
+        const colecaoAtualizada = [...colecaoAtual, ...novosIdsSorteados];
+
+        // 4. Atualizar o MockAPI do Usuário (Método PUT)
+        const resUpdate = await fetch(`${API_USUARIOS}/${usuarioLogado.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                ...usuarioLogado,
+                colecao: colecaoAtualizada
+            })
+        });
+
+        if (resUpdate.ok) {
+            const usuarioServidor = await resUpdate.json();
+            // Atualiza o localStorage para a sessão refletir a nova coleção
+            localStorage.setItem('usuarioLogado', JSON.stringify(usuarioServidor));
+            
+            alert(`Sucesso! Você ganhou as cartas com IDs: ${novosIdsSorteados.join(', ')}`);
+            exibirNovasCartas(novosIdsSorteados, todasAsCartas);
+        }
+
+    } catch (error) {
+        console.error("Erro na transação:", error);
+    }
+}
+
+// Função auxiliar para mostrar visualmente o que ele ganhou
+function exibirNovasCartas(idsGanhos, listaCompleta) {
+    const areaResultado = document.getElementById('resultadoSorteio');
+    areaResultado.innerHTML = '<h2 class="hero-title w-100 text-center">Cartas Adquiridas:</h2>';
+
+    idsGanhos.forEach(id => {
+        const dadosCarta = listaCompleta.find(c => c.id === id);
+        areaResultado.innerHTML += `
+            <div class="col-md-3 text-center mb-4">
+                <img src="${dadosCarta.imagem}" class="img-fluid border border-warning rounded shadow-lg">
+                <p class="mt-2 text-warning fw-bold">${dadosCarta.nome}</p>
+            </div>
+        `;
+    });
+}
+
 // ==========================================
 // --- LOGOUT ---
 // ==========================================
