@@ -23,7 +23,7 @@ const baseCartasOficial = [
             { id: "17", name: "Emanuel",        price: 85.00,  img: "../img/Emmanuel.png",  type: "Alunos"},
             { id: "18", name: "Yuri",           price: 97.00,  img: "../img/Yuri.png",      type: "Alunos"},
             { id: "19", name: "Luisa",          price: 89.00,  img: "../img/Luiza.png",     type: "Alunos"},
-            { id: "20", name: "Natasha",        price: 75.00,  img: "../img/Natacha.png",   type: "Alunos"}
+            { id: "20", name: "Natasha",        price: 75.00,  img: "../img/Natasha.png",   type: "Alunos"}
 ];
 
 function getCardById(id) {

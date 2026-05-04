@@ -25,7 +25,7 @@ const cartasDisponiveis = [
     { id: 19, name: "Luisa",           type: "Alunos",                img: "../img/Luiza.png",     desc: "Aluna dedicada." },
     { id: 20, name: "Natasha",         type: "Alunos",                img: "../img/Natasha.png",   desc: "Aluna dedicada." }
 ];
-
+ 
 // Função para renderizar
 function renderizarTodoCatalogo(listaDeCartas) {
     const containerCatalogo = document.getElementById('card-container-catalogo');
