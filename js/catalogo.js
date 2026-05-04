@@ -20,9 +20,9 @@ const cartasDisponiveis = [
     { id: 14, name: "Luiz",            type: "Alunos",                img: "../img/Luiz.png",      desc: "Aluno dedicado." },
     { id: 15, name: "Mateus",          type: "Alunos",                img: "../img/Mateus.png",    desc: "Aluno dedicado." },
     { id: 16, name: "Estevão",         type: "Alunos",                img: "../img/Estevao.png",   desc: "Aluno dedicado." },
-    { id: 17, name: "Emmanuel",        type: "Alunos",                img: "../img/Emmanuel.png",  desc: "Aluno dedicado." },
+    { id: 17, name: "Emanuel",        type: "Alunos",                 img: "../img/Emmanuel.png",  desc: "Aluno dedicado." },
     { id: 18, name: "Yuri",            type: "Alunos",                img: "../img/Yuri.png",      desc: "Aluno dedicada." },
-    { id: 19, name: "Luiza",           type: "Alunos",                img: "../img/Luiza.png",     desc: "Aluna dedicada." },
+    { id: 19, name: "Luisa",           type: "Alunos",                img: "../img/Luiza.png",     desc: "Aluna dedicada." },
     { id: 20, name: "Natasha",         type: "Alunos",                img: "../img/Natasha.png",   desc: "Aluna dedicada." }
 ];
 
